@@ -3,6 +3,7 @@
 
 #include "IPlug_include_in_plug_hdr.h"
 #include "Oscillator.h"
+#include "Stutter.h"
 
 class GubGlitch : public IPlug
 {
@@ -19,6 +20,8 @@ private:
   int chopperDivision;
   double mTempo;
   double mChopperMix = 1.0;
+  Stutter mStutterL;
+  Stutter mStutterR;
 };
 
 #endif

@@ -222,6 +222,7 @@ void GubGlitch::ProcessDoubleReplacing(double* inputs[], double* outputs[], int 
   // Process audio thru Chopper
   for (int s = 0; s < nFrames; ++s)
   {
+	// Modify to account for stutter module beforehand
     outL[s] = inL[s] * mOscillator.nextSample(mTempo, mChopperMix);
 	outR[s] = inR[s] * mOscillator.nextSample(mTempo, mChopperMix);
   }
@@ -306,6 +307,11 @@ void GubGlitch::OnParamChange(int paramIdx)
 	  mChopperMix = GetParam(kChopperMix)->Value();
 	  mOscillator.updateMix(mChopperMix);
 	  break;
+
+  case kStut_4th:
+	  //calculate new length of stutter deck
+	  //if positive, set stutter as active
+	  //else deactivate stutter
 
     default:
       break;
