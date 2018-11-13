@@ -7,25 +7,31 @@ Stutter::Stutter() {
 }
 
 void Stutter::setLength(double tempo, double division, double sampleRate) {
-	// This math is definitely wrong lmao i'm so tired rn
-	deckLength = tempo * division * sampleRate;
+	// Calculate how many samples long the deck should be
+	// Integer division truncates remainder; determine whether or not this is desirable behavior
+	deckLength = ((tempo / 60) / division) * sampleRate;		// Subtract 1 because first index of array is 0?
+	c = 0;
+	isFull = false;
 }
 
 double Stutter::process(double input) {
-
-	// Just return the input for now cause i dunno wut i'm doing
-	return input;
-
-	// Capture a new stutter deck
-	for (int i = 0; i < deckLength; i++) {
-		deck[i] = input;
-		// return input as deck is being captured
+	
+	if (c > deckLength) {
+		c = 0;
 	}
 
-	// Once deck is full, push it to output and repeat
-	for (int i = 0; i < deckLength; i++) {
-		// Set output equal to stutter deck
-		// How to synchronize looped deck with output?
-		// How to return to beginning of stutter deck once it reaches the end?
+	// Fill the stutter deck until it's full
+	if (!isFull) {
+		deck[c] = input;
+		c++;
+		if (c > deckLength)
+			isFull = true;
+		return input;
+	}
+	// Loop the deck after it's been filled
+	else {
+		stage = deck[c];
+		c++;
+		return stage;
 	}
 }

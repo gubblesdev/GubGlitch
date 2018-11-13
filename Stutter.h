@@ -7,7 +7,10 @@
 class Stutter {
 private:
 	double* deck;
-	double deckLength;
+	int deckLength;
+	int c;
+	bool isFull;
+	double stage;
 
 public:
 	void setLength(double tempo, double division, double sampleRate);
