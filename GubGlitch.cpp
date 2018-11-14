@@ -219,12 +219,17 @@ void GubGlitch::ProcessDoubleReplacing(double* inputs[], double* outputs[], int 
   double* outL = outputs[0];
   double* outR = outputs[1];
 
-  // Process audio thru Chopper
   for (int s = 0; s < nFrames; ++s)
   {
-	// Modify to account for stutter module beforehand
-    outL[s] = inL[s] * mOscillator.nextSample(mTempo, mChopperMix);
-	outR[s] = inR[s] * mOscillator.nextSample(mTempo, mChopperMix);
+
+	  if (mStutterL.isActive) {
+		  outL[s] = mStutterL.process(inL[s]) * mOscillator.nextSample(mTempo, mChopperMix);
+		  outR[s] = mStutterR.process(inR[s]) * mOscillator.nextSample(mTempo, mChopperMix);
+	   }
+	  else {
+		  outL[s] = inL[s] * mOscillator.nextSample(mTempo, mChopperMix);
+		  outR[s] = inR[s] * mOscillator.nextSample(mTempo, mChopperMix);
+	  }
   }
 }
 
@@ -235,6 +240,7 @@ void GubGlitch::Reset()
   mOscillator.setSampleRate(GetSampleRate());
 }
 
+// TO DO: Modify these godawful parameters into something clean and readable
 
 void GubGlitch::OnParamChange(int paramIdx)
 {
@@ -308,10 +314,126 @@ void GubGlitch::OnParamChange(int paramIdx)
 	  mOscillator.updateMix(mChopperMix);
 	  break;
 
+  case kStut_2nd:
+	  if (GetParam(kStut_2nd)->Value()) {
+		  mStutterL.setLength(mTempo, 2.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 2.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
   case kStut_4th:
-	  //calculate new length of stutter deck
-	  //if positive, set stutter as active
-	  //else deactivate stutter
+	  if (GetParam(kStut_4th)->Value()) {
+		  mStutterL.setLength(mTempo, 4.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 4.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_8th:
+	  if (GetParam(kStut_8th)->Value()) {
+		  mStutterL.setLength(mTempo, 8.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 8.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_16th:
+	  if (GetParam(kStut_16th)->Value()) {
+		  mStutterL.setLength(mTempo, 16.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 16.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_32nd:
+	  if (GetParam(kStut_32nd)->Value()) {
+		  mStutterL.setLength(mTempo, 32.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 32.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_64th:
+	  if (GetParam(kStut_64th)->Value()) {
+		  mStutterL.setLength(mTempo, 64.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 64.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_3rd:
+	  if (GetParam(kStut_3rd)->Value()) {
+		  mStutterL.setLength(mTempo, 3.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 3.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_6th:
+	  if (GetParam(kStut_6th)->Value()) {
+		  mStutterL.setLength(mTempo, 6.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 6.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_12th:
+	  if (GetParam(kStut_12th)->Value()) {
+		  mStutterL.setLength(mTempo, 12.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 12.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_24th:
+	  if (GetParam(kStut_24th)->Value()) {
+		  mStutterL.setLength(mTempo, 24.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 24.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
+
+  case kStut_48th:
+	  if (GetParam(kStut_48th)->Value()) {
+		  mStutterL.setLength(mTempo, 48.0, mSampleRate);
+		  mStutterR.setLength(mTempo, 48.0, mSampleRate);
+	  }
+	  else {
+		  mStutterL.setActive(false);
+		  mStutterR.setActive(false);
+	  }
+	  break;
 
     default:
       break;

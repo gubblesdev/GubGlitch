@@ -7,7 +7,6 @@
 
 class Stutter {
 private:
-	bool isActive;
 	std::vector<double> deck;
 	int deckLength;
 	int c;
@@ -17,6 +16,7 @@ public:
 	void setLength(double tempo, double division, double sampleRate);
 	double process(double input);
 	inline void setActive(bool muted) { isActive = muted; }
+	bool isActive;
 	Stutter() :
 		isActive(false),
 		c(0),
