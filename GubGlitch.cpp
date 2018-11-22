@@ -214,7 +214,7 @@ GubGlitch::~GubGlitch() {}
 void GubGlitch::ProcessDoubleReplacing(double* inputs[], double* outputs[], int nFrames)
 {
 	// TO DO: oh god tempo isn't working anymore why the fUCK
-  mTempo = this->GetTempo();
+  gTempo = this->GetTempo();
   double* inL = inputs[0];
   double* inR = inputs[1];
   double* outL = outputs[0];
@@ -223,13 +223,13 @@ void GubGlitch::ProcessDoubleReplacing(double* inputs[], double* outputs[], int 
   for (int s = 0; s < nFrames; ++s)
   {
 
-	  if (mStutterL.isActive) {
-		  outL[s] = mStutterL.process(inL[s]) * mOscillator.nextSample(mTempo, mChopperMix);
-		  outR[s] = mStutterR.process(inR[s]) * mOscillator.nextSample(mTempo, mChopperMix);
+	  if (gStutterL.isActive) {
+		  outL[s] = gStutterL.process(inL[s]) * mOscillator.nextSample(gTempo);
+		  outR[s] = gStutterR.process(inR[s]) * mOscillator.nextSample(gTempo);
 	   }
 	  else {
-		  outL[s] = inL[s] * mOscillator.nextSample(mTempo, mChopperMix);
-		  outR[s] = inR[s] * mOscillator.nextSample(mTempo, mChopperMix);
+		  outL[s] = inL[s] * mOscillator.nextSample(gTempo);
+		  outR[s] = inR[s] * mOscillator.nextSample(gTempo);
 	  }
   }
 }
@@ -238,7 +238,8 @@ void GubGlitch::Reset()
 {
   TRACE;
   IMutexLock lock(this);
-  mOscillator.setSampleRate(GetSampleRate());
+  gSampleRate = GetSampleRate();
+  gTempo = this->GetTempo();
 }
 
 // TO DO: Modify these godawful parameters into something clean and readable
@@ -250,57 +251,57 @@ void GubGlitch::OnParamChange(int paramIdx)
   switch (paramIdx)
   {
   case kChop_2nd:
-	  if (GetParam(kChop_2nd)->Value()) mOscillator.setChopper(2.0);
+	  if (GetParam(kChop_2nd)->Value()) mOscillator.setChopper(2.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_4th:
-	  if (GetParam(kChop_4th)->Value()) mOscillator.setChopper(4.0);
+	  if (GetParam(kChop_4th)->Value()) mOscillator.setChopper(4.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_8th:
-	  if (GetParam(kChop_8th)->Value()) mOscillator.setChopper(8.0);
+	  if (GetParam(kChop_8th)->Value()) mOscillator.setChopper(8.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_16th:
-	  if (GetParam(kChop_16th)->Value()) mOscillator.setChopper(16.0);
+	  if (GetParam(kChop_16th)->Value()) mOscillator.setChopper(16.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_32nd:
-	  if (GetParam(kChop_32nd)->Value()) mOscillator.setChopper(32.0);
+	  if (GetParam(kChop_32nd)->Value()) mOscillator.setChopper(32.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_64th:
-	  if (GetParam(kChop_64th)->Value()) mOscillator.setChopper(64.0);
+	  if (GetParam(kChop_64th)->Value()) mOscillator.setChopper(64., gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_3rd:
-	  if (GetParam(kChop_3rd)->Value()) mOscillator.setChopper(3.0);
+	  if (GetParam(kChop_3rd)->Value()) mOscillator.setChopper(3.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_6th:
-	  if (GetParam(kChop_6th)->Value()) mOscillator.setChopper(6.0);
+	  if (GetParam(kChop_6th)->Value()) mOscillator.setChopper(6.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_12th:
-	  if (GetParam(kChop_12th)->Value()) mOscillator.setChopper(12.0);
+	  if (GetParam(kChop_12th)->Value()) mOscillator.setChopper(12.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_24th:
-	  if (GetParam(kChop_24th)->Value()) mOscillator.setChopper(24.0);
+	  if (GetParam(kChop_24th)->Value()) mOscillator.setChopper(24.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
   case kChop_48th:
-	  if (GetParam(kChop_48th)->Value()) mOscillator.setChopper(48.0);
+	  if (GetParam(kChop_48th)->Value()) mOscillator.setChopper(48.0, gSampleRate);
 	  else mOscillator.setActive(false);
 	  break;
 
@@ -311,128 +312,128 @@ void GubGlitch::OnParamChange(int paramIdx)
 
   case kChopperMix:
 	  // call function to change mix values; pass in parameter value
-	  mChopperMix = GetParam(kChopperMix)->Value();
-	  mOscillator.updateMix(mChopperMix);
+	  gChopperMix = GetParam(kChopperMix)->Value();
+	  mOscillator.updateMix(gChopperMix);
 	  break;
 
   case kStut_2nd:
 	  if (GetParam(kStut_2nd)->Value()) {
-		  mStutterL.setLength(mTempo, 2.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 2.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 2.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 2.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_4th:
 	  if (GetParam(kStut_4th)->Value()) {
-		  mStutterL.setLength(mTempo, 4.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 4.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 4.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 4.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_8th:
 	  if (GetParam(kStut_8th)->Value()) {
-		  mStutterL.setLength(mTempo, 8.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 8.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 8.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 8.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_16th:
 	  if (GetParam(kStut_16th)->Value()) {
-		  mStutterL.setLength(mTempo, 16.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 16.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 16.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 16.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_32nd:
 	  if (GetParam(kStut_32nd)->Value()) {
-		  mStutterL.setLength(mTempo, 32.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 32.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 32.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 32.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_64th:
 	  if (GetParam(kStut_64th)->Value()) {
-		  mStutterL.setLength(mTempo, 64.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 64.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 64.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 64.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_3rd:
 	  if (GetParam(kStut_3rd)->Value()) {
-		  mStutterL.setLength(mTempo, 3.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 3.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 3.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 3.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_6th:
 	  if (GetParam(kStut_6th)->Value()) {
-		  mStutterL.setLength(mTempo, 6.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 6.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 6.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 6.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_12th:
 	  if (GetParam(kStut_12th)->Value()) {
-		  mStutterL.setLength(mTempo, 12.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 12.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 12.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 12.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_24th:
 	  if (GetParam(kStut_24th)->Value()) {
-		  mStutterL.setLength(mTempo, 24.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 24.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 24.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 24.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 
   case kStut_48th:
 	  if (GetParam(kStut_48th)->Value()) {
-		  mStutterL.setLength(mTempo, 48.0, mSampleRate);
-		  mStutterR.setLength(mTempo, 48.0, mSampleRate);
+		  gStutterL.setLength(gTempo, 48.0, mSampleRate);
+		  gStutterR.setLength(gTempo, 48.0, mSampleRate);
 	  }
 	  else {
-		  mStutterL.setActive(false);
-		  mStutterR.setActive(false);
+		  gStutterL.setActive(false);
+		  gStutterR.setActive(false);
 	  }
 	  break;
 

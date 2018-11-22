@@ -7,12 +7,9 @@ void Oscillator::setFrequency(double frequency) {
 	mFrequency = frequency;
 }
 
-void Oscillator::setSampleRate(double sampleRate) {
-	mSampleRate = sampleRate;
-}
-
-void Oscillator::setChopper(double division) {
+void Oscillator::setChopper(double division, double sampRate) {
 	mDivision = division;
+	mSampleRate = sampRate;
 	setActive(true);
 	resetPhase();
 }
@@ -57,7 +54,7 @@ double Oscillator::smooth(double value) {
 }
 
 
-double Oscillator::nextSample(double tempo, double mix) {
+double Oscillator::nextSample(double tempo) {
 
 	if (isHold) {
 		rawOutput = 0.0;

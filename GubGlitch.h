@@ -11,6 +11,8 @@ public:
   GubGlitch(IPlugInstanceInfo instanceInfo);
   ~GubGlitch();
 
+  double gSampleRate;
+
   void Reset();
   void OnParamChange(int paramIdx);
   void ProcessDoubleReplacing(double* inputs[], double* outputs[], int nFrames);
@@ -18,10 +20,10 @@ public:
 private:
   Oscillator mOscillator;
   int chopperDivision;
-  double mTempo;
-  double mChopperMix = 1.0;
-  Stutter mStutterL;
-  Stutter mStutterR;
+  double gTempo;
+  double gChopperMix = 1.0;
+  Stutter gStutterL;
+  Stutter gStutterR;
 };
 
 #endif

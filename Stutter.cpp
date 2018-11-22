@@ -5,7 +5,7 @@
 void Stutter::setLength(double tempo, double division, double sampleRate) {
 	// Calculate how many samples long the deck should be
 	// Integer division truncates remainder; determine whether or not this is desirable behavior
-	deckLength = ((tempo / 60) / division) * sampleRate;
+	deckLength = ((60.0 / tempo) * (4.0 / division)) * sampleRate;
 	deck.resize(deckLength);
 	c = 0;
 	isFull = false;
