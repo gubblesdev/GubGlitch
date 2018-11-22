@@ -10,15 +10,28 @@ void Stutter::setLength(double tempo, double division, double sampleRate) {
 	c = 0;
 	isFull = false;
 	isActive = true;
+	weightA = sLength;
+	weightB = 0;
 }
 
 double Stutter::process(double input) {
 
 	// Fill the stutter deck until it's full
 	if (!isFull) {
-		deck[c++] = input;
+		// Average last values of the deck towards first value
+		// Prevents pops and clicks when looping the deck
+		if (c > deckLength - sLength) {
+			deck[c++] = ((input * weightA) + (deck[0] * weightB)) / sLength;
+			weightA--;
+			weightB = sLength - weightA;
+		}
+		else
+			deck[c++] = input;
+
+		// Deck full, stop filling it
 		if (c == deckLength)
 			isFull = true;
+
 		return input;
 	}
 	// Loop the deck after it's been filled

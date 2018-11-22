@@ -20,16 +20,15 @@ void Oscillator::setChopper(double division) {
 void Oscillator::updateMix(double mix) {
 
 	// Scale range of values from -1.0 to 1.0
-	
 	mix = mix / 100.0;
 
-	// Wait this needs to be logarithmic scaling well fcuk
+	// TO DO: alter scaling from linear to logarithmic
 	if (mix > 0.0) {
 		mixA = 1.0;
-		mixB = 1.0 - mix;
+		mixB = pow(-mix + 1.0, 6);
 	}
 	else if (mix < 0.0) {
-		mixA = 1.0 + mix;
+		mixA = pow(mix + 1.0, 6);
 		mixB = 1.0;
 	}
 	else mixA = mixB = 1.0;

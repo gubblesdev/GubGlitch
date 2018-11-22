@@ -11,6 +11,9 @@ private:
 	int deckLength;
 	int c;
 	bool isFull;
+	const int sLength = 10;
+	int weightA;
+	int weightB;
 
 public:
 	void setLength(double tempo, double division, double sampleRate);

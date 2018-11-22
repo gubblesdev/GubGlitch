@@ -213,6 +213,7 @@ GubGlitch::~GubGlitch() {}
 
 void GubGlitch::ProcessDoubleReplacing(double* inputs[], double* outputs[], int nFrames)
 {
+	// TO DO: oh god tempo isn't working anymore why the fUCK
   mTempo = this->GetTempo();
   double* inL = inputs[0];
   double* inR = inputs[1];
