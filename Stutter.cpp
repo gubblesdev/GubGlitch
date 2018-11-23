@@ -2,10 +2,10 @@
 #include "IPlug/IPlug_include_in_plug_hdr.h"
 
 
-void Stutter::setLength(double tempo, double division, double sampleRate) {
+void Stutter::setLength(double division) {
 	// Calculate how many samples long the deck should be
 	// Integer division truncates remainder; determine whether or not this is desirable behavior
-	deckLength = ((60.0 / tempo) * (4.0 / division)) * sampleRate;
+	deckLength = ((60.0 / gTempo) * (4.0 / division)) * gSampleRate;
 	deck.resize(deckLength);
 	c = 0;
 	isFull = false;
@@ -20,6 +20,7 @@ double Stutter::process(double input) {
 	if (!isFull) {
 		// Average last values of the deck towards first value
 		// Prevents pops and clicks when looping the deck
+		// Fuck, this is gonna have to work differently for KEY
 		if (c > deckLength - sLength) {
 			deck[c++] = ((input * weightA) + (deck[0] * weightB)) / sLength;
 			weightA--;

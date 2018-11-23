@@ -4,16 +4,17 @@
 #include <math.h>
 #include "IPlugStructs.h"
 
+extern double gTempo;
+extern double gSampleRate;
 
 class Oscillator {
 private:
 	bool isActive;
 	bool isHold;
-	double mFrequency;
-	double mPhase;
-	double mDivision;
-	double mPhaseLength;
-	double mSampleRate;
+	double cFrequency;
+	double cPhase;
+	double cDivision;
+	double cPhaseLength;
 	double rawOutput;
 	double output;
 	const double smoothFactor = 0.01;
@@ -21,19 +22,19 @@ private:
 	double mixB;
 
 public:
-	void setFrequency(double frequency);
+	void setFrequency(double division);
 	inline void setActive(bool muted) { isActive = muted; }
 	inline void setHold(bool hold) { isHold = hold; }
-	inline void resetPhase() { mPhase = 0; }
-	void setChopper(double division, double sampRate);
-	double nextSample(double tempo);
+	inline void resetPhase() { cPhase = 0; }
+	void setChopper(double division);
+	double nextSample();
 	double smooth(double value);
 	void updateMix(double mix);
 	Oscillator() :
 		isActive(false),
 		isHold(false),
-		mFrequency(0.0),
-		mPhase(0.0),
+		cFrequency(0.0),
+		cPhase(0.0),
 		rawOutput(1.0),
 		output(1.0),
 		mixA(1.0),

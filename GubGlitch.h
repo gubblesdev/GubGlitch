@@ -5,13 +5,15 @@
 #include "Oscillator.h"
 #include "Stutter.h"
 
+// Sample rate and tempo are GLOBALS
+extern double gSampleRate;
+extern double gTempo;
+
 class GubGlitch : public IPlug
 {
 public:
   GubGlitch(IPlugInstanceInfo instanceInfo);
   ~GubGlitch();
-
-  double gSampleRate;
 
   void Reset();
   void OnParamChange(int paramIdx);
@@ -20,10 +22,9 @@ public:
 private:
   Oscillator mOscillator;
   int chopperDivision;
-  double gTempo;
-  double gChopperMix = 1.0;
-  Stutter gStutterL;
-  Stutter gStutterR;
+  double chopperMix = 1.0;
+  Stutter stutterL;
+  Stutter stutterR;
 };
 
 #endif

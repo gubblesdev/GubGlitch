@@ -5,6 +5,9 @@
 #include <vector>
 #include "IPlugStructs.h"
 
+extern double gTempo;
+extern double gSampleRate;
+
 class Stutter {
 private:
 	std::vector<double> deck;
@@ -16,7 +19,7 @@ private:
 	int weightB;
 
 public:
-	void setLength(double tempo, double division, double sampleRate);
+	void setLength(double division);
 	double process(double input);
 	inline void setActive(bool muted) { isActive = muted; }
 	bool isActive;

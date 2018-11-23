@@ -3,13 +3,12 @@
 #include "math.h"
 
 
-void Oscillator::setFrequency(double frequency) {
-	mFrequency = frequency;
+void Oscillator::setFrequency(double division) {
+	cFrequency = gTempo * division / 480.0;
 }
 
-void Oscillator::setChopper(double division, double sampRate) {
-	mDivision = division;
-	mSampleRate = sampRate;
+void Oscillator::setChopper(double division) {
+	cDivision = division;
 	setActive(true);
 	resetPhase();
 }
@@ -54,7 +53,7 @@ double Oscillator::smooth(double value) {
 }
 
 
-double Oscillator::nextSample(double tempo) {
+double Oscillator::nextSample() {
 
 	if (isHold) {
 		rawOutput = 0.0;
@@ -66,12 +65,11 @@ double Oscillator::nextSample(double tempo) {
 	}
 
 	// Update the tempo every sample to account for tempo jumps, ramps, etc.
-	// Costly to do every update, but I dunno how else to account for this
-	setFrequency(tempo * mDivision / 480.0);
-	mPhaseLength = 1 / mFrequency * mSampleRate;
+	setFrequency(cDivision);
+	cPhaseLength = 1 / cFrequency * gSampleRate;
 
 	// Generate square wave
-	if (mPhase <= (mPhaseLength / 2)) {
+	if (cPhase <= (cPhaseLength / 2)) {
 		rawOutput = mixA;
 	}
 	else {
@@ -79,9 +77,9 @@ double Oscillator::nextSample(double tempo) {
 	}
 
 	// Advance phase each sample
-	mPhase++;
-	while (mPhase >= mPhaseLength) {
-		mPhase -= mPhaseLength;
+	cPhase++;
+	while (cPhase >= cPhaseLength) {
+		cPhase -= cPhaseLength;
 	}
 
 	return smooth(output);
