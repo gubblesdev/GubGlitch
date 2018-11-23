@@ -5,8 +5,8 @@
     <ClCompile Include="..\..\WDL\IPlug\IPlugVST.cpp">
       <Filter>vst2</Filter>
     </ClCompile>
-    <ClCompile Include="Oscillator.cpp" />
     <ClCompile Include="Stutter.cpp" />
+    <ClCompile Include="Chopper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GubGlitch.h" />
@@ -14,8 +14,8 @@
     <ClInclude Include="..\..\WDL\IPlug\IPlugVST.h">
       <Filter>vst2</Filter>
     </ClInclude>
-    <ClInclude Include="Oscillator.h" />
     <ClInclude Include="Stutter.h" />
+    <ClInclude Include="Chopper.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GubGlitch.rc" />

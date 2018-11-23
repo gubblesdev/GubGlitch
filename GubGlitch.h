@@ -2,7 +2,7 @@
 #define __GUBGLITCH__
 
 #include "IPlug_include_in_plug_hdr.h"
-#include "Oscillator.h"
+#include "Chopper.h"
 #include "Stutter.h"
 
 // Sample rate and tempo are GLOBALS
@@ -20,7 +20,7 @@ public:
   void ProcessDoubleReplacing(double* inputs[], double* outputs[], int nFrames);
 
 private:
-  Oscillator mOscillator;
+  Chopper chopper;
   int chopperDivision;
   double chopperMix = 1.0;
   Stutter stutterL;

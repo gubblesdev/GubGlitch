@@ -1,19 +1,19 @@
-#include "Oscillator.h"
+#include "Chopper.h"
 #include "IPlug/IPlug_include_in_plug_hdr.h"
 #include "math.h"
 
 
-void Oscillator::setFrequency(double division) {
+void Chopper::setFrequency(double division) {
 	cFrequency = gTempo * division / 480.0;
 }
 
-void Oscillator::setChopper(double division) {
+void Chopper::setChopper(double division) {
 	cDivision = division;
 	setActive(true);
 	resetPhase();
 }
 
-void Oscillator::updateMix(double mix) {
+void Chopper::updateMix(double mix) {
 
 	// Scale range of values from -1.0 to 1.0
 	mix = mix / 100.0;
@@ -32,7 +32,7 @@ void Oscillator::updateMix(double mix) {
 }
 
 // Smooth any output values to prevent pops and clicks
-double Oscillator::smooth(double value) {
+double Chopper::smooth(double value) {
 
 	if (value < rawOutput) {
 		// If smoothing brings value above the threshold, snap down to target
@@ -53,7 +53,7 @@ double Oscillator::smooth(double value) {
 }
 
 
-double Oscillator::nextSample() {
+double Chopper::nextSample() {
 
 	if (isHold) {
 		rawOutput = 0.0;

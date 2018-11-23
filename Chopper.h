@@ -1,13 +1,13 @@
 #pragma once
-#ifndef __OSCILLATOR__
-#define __OSCILLATOR__
+#ifndef __CHOPPER__
+#define __CHOPPER__
 #include <math.h>
 #include "IPlugStructs.h"
 
 extern double gTempo;
 extern double gSampleRate;
 
-class Oscillator {
+class Chopper {
 private:
 	bool isActive;
 	bool isHold;
@@ -30,7 +30,7 @@ public:
 	double nextSample();
 	double smooth(double value);
 	void updateMix(double mix);
-	Oscillator() :
+	Chopper() :
 		isActive(false),
 		isHold(false),
 		cFrequency(0.0),

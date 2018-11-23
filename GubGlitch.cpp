@@ -226,12 +226,12 @@ void GubGlitch::ProcessDoubleReplacing(double* inputs[], double* outputs[], int 
   {
 
 	  if (stutterL.isActive) {
-		  outL[s] = stutterL.process(inL[s]) * mOscillator.nextSample();
-		  outR[s] = stutterR.process(inR[s]) * mOscillator.nextSample();
+		  outL[s] = stutterL.process(inL[s]) * chopper.nextSample();
+		  outR[s] = stutterR.process(inR[s]) * chopper.nextSample();
 	   }
 	  else {
-		  outL[s] = inL[s] * mOscillator.nextSample();
-		  outR[s] = inR[s] * mOscillator.nextSample();
+		  outL[s] = inL[s] * chopper.nextSample();
+		  outR[s] = inR[s] * chopper.nextSample();
 	  }
   }
 }
@@ -253,69 +253,69 @@ void GubGlitch::OnParamChange(int paramIdx)
   switch (paramIdx)
   {
   case kChop_2nd:
-	  if (GetParam(kChop_2nd)->Value()) mOscillator.setChopper(2.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_2nd)->Value()) chopper.setChopper(2.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_4th:
-	  if (GetParam(kChop_4th)->Value()) mOscillator.setChopper(4.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_4th)->Value()) chopper.setChopper(4.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_8th:
-	  if (GetParam(kChop_8th)->Value()) mOscillator.setChopper(8.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_8th)->Value()) chopper.setChopper(8.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_16th:
-	  if (GetParam(kChop_16th)->Value()) mOscillator.setChopper(16.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_16th)->Value()) chopper.setChopper(16.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_32nd:
-	  if (GetParam(kChop_32nd)->Value()) mOscillator.setChopper(32.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_32nd)->Value()) chopper.setChopper(32.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_64th:
-	  if (GetParam(kChop_64th)->Value()) mOscillator.setChopper(64.);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_64th)->Value()) chopper.setChopper(64.);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_3rd:
-	  if (GetParam(kChop_3rd)->Value()) mOscillator.setChopper(3.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_3rd)->Value()) chopper.setChopper(3.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_6th:
-	  if (GetParam(kChop_6th)->Value()) mOscillator.setChopper(6.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_6th)->Value()) chopper.setChopper(6.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_12th:
-	  if (GetParam(kChop_12th)->Value()) mOscillator.setChopper(12.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_12th)->Value()) chopper.setChopper(12.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_24th:
-	  if (GetParam(kChop_24th)->Value()) mOscillator.setChopper(24.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_24th)->Value()) chopper.setChopper(24.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_48th:
-	  if (GetParam(kChop_48th)->Value()) mOscillator.setChopper(48.0);
-	  else mOscillator.setActive(false);
+	  if (GetParam(kChop_48th)->Value()) chopper.setChopper(48.0);
+	  else chopper.setActive(false);
 	  break;
 
   case kChop_hold:
-	  if (GetParam(kChop_hold)->Value()) mOscillator.setHold(true);
-	  else mOscillator.setHold(false);
+	  if (GetParam(kChop_hold)->Value()) chopper.setHold(true);
+	  else chopper.setHold(false);
 	  break;
 
   case kChopperMix:
 	  // call function to change mix values; pass in parameter value
 	  chopperMix = GetParam(kChopperMix)->Value();
-	  mOscillator.updateMix(chopperMix);
+	  chopper.updateMix(chopperMix);
 	  break;
 
   case kStut_2nd:
