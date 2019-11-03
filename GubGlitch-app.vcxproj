@@ -272,6 +272,7 @@
     <ClInclude Include="..\..\ASIO_SDK\asiosys.h" />
     <ClInclude Include="..\..\ASIO_SDK\ginclude.h" />
     <ClInclude Include="..\..\ASIO_SDK\iasiodrv.h" />
+    <ClInclude Include="..\..\WDL\IPlug\IGraphics.h" />
     <ClInclude Include="..\..\WDL\IPlug\IPlugStandalone.h" />
     <ClInclude Include="..\..\WDL\rtaudiomidi\RtAudio.h" />
     <ClInclude Include="..\..\WDL\rtaudiomidi\RtError.h" />
@@ -280,6 +281,7 @@
     <ClInclude Include="app_wrapper\app_resource.h" />
     <ClInclude Include="GubGlitch.h" />
     <ClInclude Include="Chopper.h" />
+    <ClInclude Include="MIDIManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stutter.h" />
   </ItemGroup>
@@ -294,6 +296,7 @@
     <ClCompile Include="app_wrapper\app_main.cpp" />
     <ClCompile Include="GubGlitch.cpp" />
     <ClCompile Include="Chopper.cpp" />
+    <ClCompile Include="MIDIManager.cpp" />
     <ClCompile Include="Stutter.cpp" />
   </ItemGroup>
   <ItemGroup>

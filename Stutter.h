@@ -1,6 +1,7 @@
 #pragma once
 #ifndef __STUTTER__
 #define __STUTTER__
+
 #include <math.h>
 #include <vector>
 #include "IPlugStructs.h"
@@ -14,12 +15,13 @@ private:
 	int deckLength;
 	int c;
 	bool isFull;
-	const int sLength = 10;
+	const int lerpLength = 44;
 	int weightA;
 	int weightB;
 
 public:
 	void setLength(double division);
+	void setKeyLength(double freq);
 	double process(double input);
 	inline void setActive(bool muted) { isActive = muted; }
 	bool isActive;

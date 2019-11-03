@@ -222,18 +222,30 @@ void GubGlitch::ProcessDoubleReplacing(double* inputs[], double* outputs[], int 
   double* outL = outputs[0];
   double* outR = outputs[1];
 
-  for (int s = 0; s < nFrames; ++s)
-  {
+  //SetParameterFromGUI(kChop_16th, 1.0);
+
+  //activateChopper(2);
+
+  /*
+  
+		if (MIDIManager.hasUpdated) {
+			// activate or deactivate effect
+		}
+
+  */
+
+  for (int s = 0; s < nFrames; ++s) {
 
 	  if (stutterL.isActive) {
 		  outL[s] = stutterL.process(inL[s]) * chopper.nextSample();
 		  outR[s] = stutterR.process(inR[s]) * chopper.nextSample();
-	   }
+	  }
 	  else {
 		  outL[s] = inL[s] * chopper.nextSample();
 		  outR[s] = inR[s] * chopper.nextSample();
 	  }
   }
+  mMIDI.Flush(nFrames);
 }
 
 void GubGlitch::Reset()
@@ -246,12 +258,10 @@ void GubGlitch::Reset()
 
 // TO DO: Modify these godawful parameters into something clean and readable
 
-void GubGlitch::OnParamChange(int paramIdx)
-{
+void GubGlitch::OnParamChange(int paramIdx) {
   IMutexLock lock(this);
 
-  switch (paramIdx)
-  {
+  switch (paramIdx) {
   case kChop_2nd:
 	  if (GetParam(kChop_2nd)->Value()) chopper.setChopper(2.0);
 	  else chopper.setActive(false);
@@ -443,3 +453,18 @@ void GubGlitch::OnParamChange(int paramIdx)
       break;
   }
 }
+
+void GubGlitch::activateChopper(int div) {
+	//SetParameterFromGUI(kChop_16th, 1.0);
+	GetGUI()->SetParameterFromPlug(kChop_16th, 1.0, true);
+}
+
+void GubGlitch::deactivateChopper() {
+	SetParameterFromGUI(kChop_16th, 0.0);
+}
+
+/*
+void GubGlitch::SetParameterFromGUI() {
+
+}
+*/

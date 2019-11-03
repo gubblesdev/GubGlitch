@@ -50,6 +50,8 @@
     <ClInclude Include="app_wrapper\app_resource.h" />
     <ClInclude Include="Stutter.h" />
     <ClInclude Include="Chopper.h" />
+    <ClInclude Include="MIDIManager.h" />
+    <ClInclude Include="..\..\WDL\IPlug\IGraphics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\WDL\rtaudiomidi\RtAudio.cpp">
@@ -79,6 +81,7 @@
     </ClCompile>
     <ClCompile Include="Stutter.cpp" />
     <ClCompile Include="Chopper.cpp" />
+    <ClCompile Include="MIDIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GubGlitch.rc" />

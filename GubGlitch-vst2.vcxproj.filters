@@ -7,6 +7,7 @@
     </ClCompile>
     <ClCompile Include="Stutter.cpp" />
     <ClCompile Include="Chopper.cpp" />
+    <ClCompile Include="MIDIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GubGlitch.h" />
@@ -16,6 +17,7 @@
     </ClInclude>
     <ClInclude Include="Stutter.h" />
     <ClInclude Include="Chopper.h" />
+    <ClInclude Include="MIDIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GubGlitch.rc" />

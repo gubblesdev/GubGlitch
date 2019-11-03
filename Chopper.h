@@ -1,6 +1,7 @@
 #pragma once
 #ifndef __CHOPPER__
 #define __CHOPPER__
+
 #include <math.h>
 #include "IPlugStructs.h"
 

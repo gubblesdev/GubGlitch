@@ -18,7 +18,7 @@ void Chopper::updateMix(double mix) {
 	// Scale range of values from -1.0 to 1.0
 	mix = mix / 100.0;
 
-	// TO DO: alter scaling from linear to logarithmic
+	// TO DO : Check if this scaling is indeed logarithmic? I think it is??
 	if (mix > 0.0) {
 		mixA = 1.0;
 		mixB = pow(-mix + 1.0, 6);
